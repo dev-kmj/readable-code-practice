@@ -125,7 +125,6 @@ public class MinesweeperGame {
         gameStatus = 1;
     }
 
-    //리팩토링
     private static boolean isAllCellOpened() {
         return Arrays.stream(BOARD) // Stream<String[]>
                 .flatMap(Arrays::stream) // Stream<String>
@@ -134,7 +133,11 @@ public class MinesweeperGame {
 
 
     private static int convertRowFrom(char cellInputRow) {
-        return Character.getNumericValue(cellInputRow) - 1;
+        int rowIndex = Character.getNumericValue(cellInputRow) - 1;
+        if (rowIndex >= BOARD_ROW_SIZE) {
+            throw new IllegalArgumentException("잘못된 입력입니다.");
+        }
+        return rowIndex;
     }
 
     private static int convertColFrom(char cellInputCol) {
