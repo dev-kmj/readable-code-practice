@@ -1,5 +1,6 @@
 package cleancode.minesweeper.tobe;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class MinesweeperGame {
     public static final String LAND_MINE_SIGN = "☼";
     public static final String CLOSED_CELL_SIGN = "□";
     public static final String OPENED_CELL_SIGN = "■";
+
     private static int gameStatus = 0; // 0: 게임 중, 1: 승리, -1: 패배
 
     public static void main(String[] args) {
@@ -95,7 +97,7 @@ public class MinesweeperGame {
     }
 
     private static void checkIfGameIsOver() {
-        boolean isAllOpened = isAllCellIsOpened();
+        boolean isAllOpened = isAllCellOpened();
         if (isAllOpened) {
             changeGameStatusToWin();
         }
@@ -105,17 +107,13 @@ public class MinesweeperGame {
         gameStatus = 1;
     }
 
-    private static boolean isAllCellIsOpened() {
-        boolean isAllOpened = true;
-        for (int row = 0; row < BOARD_ROW_SIZE; row++) {
-            for (int col = 0; col < BOARD_COL_SIZE; col++) {
-                if (BOARD[row][col].equals(CLOSED_CELL_SIGN)) {
-                    isAllOpened = false;
-                }
-            }
-        }
-        return isAllOpened;
+    //리팩토링
+    private static boolean isAllCellOpened() {
+        return Arrays.stream(BOARD) // Stream<String[]>
+                .flatMap(Arrays::stream) // Stream<String>
+                .noneMatch(cell -> cell.equals(CLOSED_CELL_SIGN));
     }
+
 
     private static int convertRowFrom(char cellInputRow) {
         return Character.getNumericValue(cellInputRow) - 1;
