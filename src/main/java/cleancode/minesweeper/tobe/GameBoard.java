@@ -25,7 +25,9 @@ public class GameBoard {
         for (int i = 0; i < LAND_MINE_COUNT; i++) {
             int landMineCol = new Random().nextInt(colSize);
             int landMineRow = new Random().nextInt(rowSize);
-            board[landMineRow][landMineCol].turnOnLandMine();
+            Cell landMineCell = findCell(landMineRow, landMineCol);
+            landMineCell.turnOnLandMine();
+
         }
 
         for (int row = 0; row < rowSize; row++) {
@@ -34,14 +36,19 @@ public class GameBoard {
                     continue;
                 }
                 int count = countNearbyLandMines(row, col);
-                board[row][col].updateNearbyLandMineCount(count);
+                Cell cell = findCell(row, col);
+                cell.updateNearbyLandMineCount(count);
             }
         }
     }
 
-    public String getSign(int row, int col) {
-        Cell cell = board[row][col];
+    public String getSign(int rowIndex, int colIndex) {
+        Cell cell = findCell(rowIndex, colIndex);
         return cell.getSign();
+    }
+
+    private Cell findCell(int rowIndex, int colIndex) {
+        return board[rowIndex][colIndex];
     }
 
     public int getRowSize() {
@@ -53,8 +60,9 @@ public class GameBoard {
     }
 
     public int countNearbyLandMines(int row, int col) {
-        int rowSize = board.length;
-        int colSize = board[0].length;
+        int rowSize = getRowSize();
+        int colSize = getColSize();
+
         int count = 0;
         if (row - 1 >= 0 && col - 1 >= 0 && isLandMineCell(row - 1, col - 1)) {
             count++;
@@ -84,6 +92,6 @@ public class GameBoard {
     }
 
     private boolean isLandMineCell(int selectedRowIndex, int selectedColIndex) {
-        return board[selectedRowIndex][selectedColIndex].isLandMine();
+        return findCell(selectedRowIndex, selectedColIndex).isLandMine();
     }
 }
