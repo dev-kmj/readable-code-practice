@@ -1,5 +1,8 @@
 package cleancode.minesweeper.tobe;
 
+import cleancode.minesweeper.tobe.io.ConsoleInputHandler;
+import cleancode.minesweeper.tobe.io.ConsoleOutputHandler;
+
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -12,22 +15,24 @@ public class Minesweeper {
     private static final Cell[][] BOARD = new Cell[BOARD_ROW_SIZE][BOARD_COL_SIZE];
     public static final int LAND_MINE_COUNT = 10;
 
+    private final ConsoleInputHandler consoleInputHandler = new ConsoleInputHandler();
+    private final ConsoleOutputHandler consoleOutputHandler = new ConsoleOutputHandler();
     private int gameStatus = 0; // 0: 게임 중, 1: 승리, -1: 패배
 
     public void run() {
-        showGameStartComments();
+        consoleOutputHandler.showGameStartComments();
         initializeGame();
 
         while (true) {
             try {
-                showBoard();
+                consoleOutputHandler.showBoard(BOARD);
 
                 if (doesUserWinTheGame()) {
-                    System.out.println("지뢰를 모두 찾았습니다. GAME CLEAR!");
+                    consoleOutputHandler.printGameWinningComment();
                     break;
                 }
                 if (doesUserLoseTheGame()) {
-                    System.out.println("지뢰를 밟았습니다. GAME OVER!");
+                    consoleOutputHandler.printGameLosingComment();
                     break;
                 }
 
@@ -106,7 +111,7 @@ public class Minesweeper {
     }
 
     private String getCellInputFromUser() {
-        System.out.println("선택할 좌표를 입력하세요. (예: a1)");
+        consoleOutputHandler.printCommentForSelectingCell();
         return SCANNER.nextLine();
     }
 
