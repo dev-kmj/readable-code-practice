@@ -77,7 +77,15 @@ public class Cell {
         this.isFlagged = true;
     }
 
+    public void open() {
+        this.isOpened =true;
+    }
+
     public boolean isChecked() {
         return isFlagged || isOpened;
+    }
+
+    public boolean isLandMine() {
+        return isLandMine;
     }
 }
