@@ -42,6 +42,52 @@ public class GameBoard {
         }
     }
 
+    public void flag(int rowIndex, int colIndex) {
+        Cell cell = findCell(rowIndex, colIndex);
+        cell.flag();
+    }
+
+    public void open(int rowIndex, int colIndex) {
+        Cell cell = findCell(rowIndex, colIndex);
+        cell.open();
+    }
+
+    public void openSurroundedCells(int row, int col) {
+        if (row < 0 || row >= getRowSize() || col < 0 || col >= getColSize()) {
+            return;
+        }
+        if (isOpenedCell(row, col)) {
+            return;
+        }
+        if (isLandMineCell(row, col)) {
+            return;
+        }
+
+        open(row, col);
+
+        if (doesCellHaveLandMineCount(row, col)) {
+            return;
+        }
+
+        openSurroundedCells(row - 1, col - 1);
+        openSurroundedCells(row - 1, col);
+        openSurroundedCells(row - 1, col + 1);
+        openSurroundedCells(row, col - 1);
+        openSurroundedCells(row, col + 1);
+        openSurroundedCells(row + 1, col - 1);
+        openSurroundedCells(row + 1, col);
+        openSurroundedCells(row + 1, col + 1);
+    }
+
+    private boolean doesCellHaveLandMineCount(int row, int col) {
+        return findCell(row, col).hasLandMineCount();
+    }
+
+    private boolean isOpenedCell(int row, int col) {
+        return findCell(row, col).isOpened();
+    }
+
+
     public String getSign(int rowIndex, int colIndex) {
         Cell cell = findCell(rowIndex, colIndex);
         return cell.getSign();
@@ -57,6 +103,10 @@ public class GameBoard {
 
     public int getColSize() {
         return board[0].length;
+    }
+
+    public boolean isLandMineCell(int selectedRowIndex, int selectedColIndex) {
+        return findCell(selectedRowIndex, selectedColIndex).isLandMine();
     }
 
     public int countNearbyLandMines(int row, int col) {
@@ -89,9 +139,5 @@ public class GameBoard {
             count++;
         }
         return count;
-    }
-
-    private boolean isLandMineCell(int selectedRowIndex, int selectedColIndex) {
-        return findCell(selectedRowIndex, selectedColIndex).isLandMine();
     }
 }

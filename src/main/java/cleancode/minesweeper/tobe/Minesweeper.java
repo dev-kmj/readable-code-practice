@@ -57,19 +57,19 @@ public class Minesweeper {
         int selectedRowIndex = getSelectedRowIndex(cellInput);
 
         if (doesUserChooseToPlantFlag(userActionInput)) {
-            BOARD[selectedRowIndex][selectedColIndex].flag();
+            gameBoard.flag(selectedRowIndex, selectedColIndex);
             checkIfGameIsOver();
             return;
         }
 
         if (doesUserChooseToOpenCell(userActionInput)) {
-            if (isLandMineCell(selectedRowIndex, selectedColIndex)) {
-                BOARD[selectedRowIndex][selectedColIndex].open();
+            if (gameBoard.isLandMineCell(selectedRowIndex, selectedColIndex)) {
+                gameBoard.open(selectedRowIndex, selectedColIndex);
                 changeGameStatusToLose();
                 return;
             }
 
-            open(selectedRowIndex, selectedColIndex);
+            gameBoard.openSurroundedCells(selectedRowIndex, selectedColIndex);
             checkIfGameIsOver();
             return;
         }
@@ -181,32 +181,5 @@ public class Minesweeper {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println("지뢰찾기 게임 시작!");
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    }
-
-    private void open(int row, int col) {
-        if (row < 0 || row >= BOARD_ROW_SIZE || col < 0 || col >= BOARD_COL_SIZE) {
-            return;
-        }
-        if (BOARD[row][col].isOpened()) {
-            return;
-        }
-        if (isLandMineCell(row, col)) {
-            return;
-        }
-
-        BOARD[row][col].open();
-
-        if (BOARD[row][col].hasLandMineCount()) {
-            return;
-        }
-
-        open(row - 1, col - 1);
-        open(row - 1, col);
-        open(row - 1, col + 1);
-        open(row, col - 1);
-        open(row, col + 1);
-        open(row + 1, col - 1);
-        open(row + 1, col);
-        open(row + 1, col + 1);
     }
 }
