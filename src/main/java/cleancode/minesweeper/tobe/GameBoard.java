@@ -1,5 +1,6 @@
 package cleancode.minesweeper.tobe;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class GameBoard {
@@ -109,6 +110,12 @@ public class GameBoard {
         return findCell(selectedRowIndex, selectedColIndex).isLandMine();
     }
 
+    public boolean isAllCellChecked() {
+        return Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .allMatch(Cell::isChecked);
+    }
+
     public int countNearbyLandMines(int row, int col) {
         int rowSize = getRowSize();
         int colSize = getColSize();
@@ -140,4 +147,7 @@ public class GameBoard {
         }
         return count;
     }
+
+
+
 }

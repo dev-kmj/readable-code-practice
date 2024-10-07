@@ -3,13 +3,11 @@ package cleancode.minesweeper.tobe;
 import cleancode.minesweeper.tobe.io.ConsoleInputHandler;
 import cleancode.minesweeper.tobe.io.ConsoleOutputHandler;
 
-import java.util.Arrays;
 
 public class Minesweeper {
 
     public static final int BOARD_ROW_SIZE = 8;
     public static final int BOARD_COL_SIZE = 10;
-    private static final Cell[][] BOARD = new Cell[BOARD_ROW_SIZE][BOARD_COL_SIZE];
 
     private final GameBoard gameBoard = new GameBoard(BOARD_ROW_SIZE, BOARD_COL_SIZE);
     private final ConsoleInputHandler consoleInputHandler = new ConsoleInputHandler();
@@ -80,10 +78,6 @@ public class Minesweeper {
         gameStatus = -1;
     }
 
-    private static boolean isLandMineCell(int selectedRowIndex, int selectedColIndex) {
-        return BOARD[selectedRowIndex][selectedColIndex].isLandMine();
-    }
-
     private static boolean doesUserChooseToOpenCell(String userActionInput) {
         return userActionInput.equals("1");
     }
@@ -113,8 +107,7 @@ public class Minesweeper {
     }
 
     private void checkIfGameIsOver() {
-        boolean isAllChecked = isAllCellChecked();
-        if (isAllChecked) {
+        if (gameBoard.isAllCellChecked()) {
             changeGameStatusToWin();
         }
     }
@@ -122,13 +115,6 @@ public class Minesweeper {
     private void changeGameStatusToWin() {
         gameStatus = 1;
     }
-
-    private boolean isAllCellChecked() {
-        return Arrays.stream(BOARD) // Stream<String[]>
-                .flatMap(Arrays::stream) // Stream<String>
-                .allMatch(Cell::isChecked);
-    }
-
 
     private int convertRowFrom(char cellInputRow) {
         int rowIndex = Character.getNumericValue(cellInputRow) - 1;
@@ -163,23 +149,5 @@ public class Minesweeper {
             default:
                 throw new GameException("잘못된 입력입니다.");
         }
-    }
-
-    private void showBoard() {
-        System.out.println("   a b c d e f g h i j");
-        for (int row = 0; row < BOARD_ROW_SIZE; row++) {
-            System.out.printf("%d  ", row + 1);
-            for (int col = 0; col < BOARD_COL_SIZE; col++) {
-                System.out.print(BOARD[row][col].getSign() + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    private void showGameStartComments() {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        System.out.println("지뢰찾기 게임 시작!");
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
 }
