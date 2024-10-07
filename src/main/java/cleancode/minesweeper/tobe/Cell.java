@@ -13,9 +13,6 @@ public class Cell {
     private boolean isFlagged;
     private boolean isOpened;
 
-    // Cell이 가진 속성 : 근처 지뢰 숫자, 지뢰 여부
-    // Cell의 상태 : 깃발 유무, 열렸다/닫혔다, 사용자가 확인함
-
     private Cell(String sign, int nearbyLandMineCount, boolean isLandMine, boolean isFlagged, boolean isOpened) {
         this.sign = sign;
         this.nearbyLandMineCount = nearbyLandMineCount;
@@ -32,41 +29,8 @@ public class Cell {
         return of("", 0, false, false, false);
     }
 
-    public static Cell ofFlag() {
-        return of(FLAG_SIGN, 0, false);
-    }
-
-    public static Cell ofLandMine() {
-        return of(LAND_MINE_SIGN, 0, false);
-    }
-
-    public static Cell ofClosed() {
-        return of(UNCHECKED_SIGN, 0, false);
-    }
-
-    public static Cell ofOpened() {
-        return of(EMPTY_SIGN, 0, false);
-    }
-
-    public static Cell ofNearbyLandMineCount(int count) {
-       return of(String.valueOf(count), 0, false);
-    }
-
     public void turnOnLandMine() {
         this.isLandMine = true;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-
-    public boolean isClosed() {
-        return UNCHECKED_SIGN.equals(this.sign);
-    }
-
-    public boolean doesNotClosed() {
-        return !isClosed();
     }
 
     public void updateNearbyLandMineCount(int count) {
@@ -95,5 +59,9 @@ public class Cell {
 
     public boolean hasLandMineCount() {
         return this.nearbyLandMineCount != 0;
+    }
+
+    public String getSign() {
+        return sign;
     }
 }
