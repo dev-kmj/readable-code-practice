@@ -24,6 +24,10 @@ public class Cell {
         return new Cell(sign, nearbyLandMineCount, isLandMine);
     }
 
+    public static Cell create() {
+        return of("", 0, false);
+    }
+
     public static Cell ofFlag() {
         return of(FLAG_SIGN, 0, false);
     }
@@ -44,6 +48,10 @@ public class Cell {
        return of(String.valueOf(count), 0, false);
     }
 
+    public void turnOnLandMine() {
+        this.isLandMine = true;
+    }
+
     public String getSign() {
         return sign;
     }
@@ -55,5 +63,9 @@ public class Cell {
 
     public boolean doesNotClosed() {
         return !isClosed();
+    }
+
+    public void updateNearbyLandMineCount(int count) {
+        this.nearbyLandMineCount = count;
     }
 }
