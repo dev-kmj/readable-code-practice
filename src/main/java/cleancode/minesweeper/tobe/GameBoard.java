@@ -160,7 +160,4 @@ public class GameBoard {
         }
         return count;
     }
-
-
-
 }
