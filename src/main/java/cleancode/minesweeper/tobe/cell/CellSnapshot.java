@@ -33,7 +33,11 @@ public class CellSnapshot {
     }
 
     public static CellSnapshot ofUnchecked() {
-        return of(CellSnapshotStatus.UNCHECKEDD, 0);
+        return of(CellSnapshotStatus.UNCHECKED, 0);
+    }
+
+    public boolean isSameStatus(CellSnapshotStatus cellSnapshotStatus) {
+        return this.status == cellSnapshotStatus;
     }
 
     public CellSnapshotStatus getStatus() {
