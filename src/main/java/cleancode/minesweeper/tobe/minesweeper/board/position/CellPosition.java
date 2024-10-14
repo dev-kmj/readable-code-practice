@@ -55,7 +55,7 @@ public class CellPosition {
 
     public CellPosition calculatePositionBy(RelativePosition relativePosition) {
         if (this.canCalculatePositionBy(relativePosition)) {
-            return  CellPosition.of(
+            return CellPosition.of(
                     this.rowIndex + relativePosition.getDeltaRow(),
                     this.colIndex + relativePosition.getDeltaCol()
             );

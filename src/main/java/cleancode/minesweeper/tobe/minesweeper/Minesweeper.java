@@ -1,14 +1,14 @@
 package cleancode.minesweeper.tobe.minesweeper;
 
-import cleancode.minesweeper.tobe.minesweeper.board.GameBoard;
-import cleancode.minesweeper.tobe.minesweeper.config.GameConfig;
-import cleancode.minesweeper.tobe.minesweeper.exception.GameException;
 import cleancode.minesweeper.tobe.game.GameInitializable;
 import cleancode.minesweeper.tobe.game.GameRunnable;
+import cleancode.minesweeper.tobe.minesweeper.board.GameBoard;
+import cleancode.minesweeper.tobe.minesweeper.board.position.CellPosition;
+import cleancode.minesweeper.tobe.minesweeper.config.GameConfig;
+import cleancode.minesweeper.tobe.minesweeper.exception.GameException;
 import cleancode.minesweeper.tobe.minesweeper.io.BoardIndexConverter;
 import cleancode.minesweeper.tobe.minesweeper.io.InputHandler;
 import cleancode.minesweeper.tobe.minesweeper.io.OutputHandler;
-import cleancode.minesweeper.tobe.minesweeper.board.position.CellPosition;
 import cleancode.minesweeper.tobe.minesweeper.user.UserAction;
 
 public class Minesweeper implements GameInitializable, GameRunnable {
@@ -24,6 +24,13 @@ public class Minesweeper implements GameInitializable, GameRunnable {
         this.outputHandler = gameConfig.getOutputHandler();
     }
 
+    private static boolean doesUserChooseToPlantFlag(UserAction userAction) {
+        return userAction == UserAction.FLAG;
+    }
+
+    private static boolean doesUserChooseToOpenCell(UserAction userAction) {
+        return userAction == UserAction.OPEN;
+    }
 
     @Override
     public void initialize() {
@@ -73,7 +80,6 @@ public class Minesweeper implements GameInitializable, GameRunnable {
         return inputHandler.getUserActionFromUser();
     }
 
-
     private void actOnCell(CellPosition cellPosition, UserAction userAction) {
 
         if (doesUserChooseToPlantFlag(userAction)) {
@@ -86,13 +92,5 @@ public class Minesweeper implements GameInitializable, GameRunnable {
             return;
         }
         throw new GameException("잘못된 번호를 선택하셨습니다.");
-    }
-
-    private static boolean doesUserChooseToPlantFlag(UserAction userAction) {
-        return userAction == UserAction.FLAG;
-    }
-
-    private static boolean doesUserChooseToOpenCell(UserAction userAction) {
-        return userAction == UserAction.OPEN;
     }
 }

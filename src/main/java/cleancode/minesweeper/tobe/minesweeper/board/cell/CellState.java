@@ -19,7 +19,7 @@ public class CellState {
     }
 
     public void open() {
-        this.isOpened =true;
+        this.isOpened = true;
     }
 
     public boolean isOpened() {

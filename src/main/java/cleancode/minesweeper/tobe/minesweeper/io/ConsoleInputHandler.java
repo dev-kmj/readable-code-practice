@@ -9,7 +9,7 @@ public class ConsoleInputHandler implements InputHandler {
 
     public static final Scanner SCANNER = new Scanner(System.in);
 
-    private final BoardIndexConverter boardIndexConverter= new BoardIndexConverter();
+    private final BoardIndexConverter boardIndexConverter = new BoardIndexConverter();
 
     @Override
     public UserAction getUserActionFromUser() {
