@@ -9,7 +9,6 @@ import cleancode.minesweeper.tobe.minesweeper.gamelevel.GameLevel;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
 
 public class GameBoard {
 
@@ -63,7 +62,7 @@ public class GameBoard {
         int colSize = getColSize();
 
         return cellPosition.isRowIndexMoreThanOrEqual(rowSize)
-                || cellPosition.isColIndexMoreThanOrEqual(colSize);
+            || cellPosition.isColIndexMoreThanOrEqual(colSize);
     }
 
     public boolean isInProgress() {
@@ -123,19 +122,19 @@ public class GameBoard {
         int colSize = getColSize();
 
         long count = calculateSurroundedPositions(cellPosition, rowSize, colSize).stream()
-                .filter(this::isLandMineCellAt)
-                .count();
+            .filter(this::isLandMineCellAt)
+            .count();
 
         return (int) count;
     }
 
     private List<CellPosition> calculateSurroundedPositions(CellPosition cellPosition, int rowSize, int colSize) {
         return RelativePosition.SURROUNDED_POSITIONS.stream()
-                .filter(cellPosition::canCalculatePositionBy)
-                .map(cellPosition::calculatePositionBy)
-                .filter(position -> position.isRowIndexLessThan(rowSize))
-                .filter(position -> position.isColIndexLessThan(colSize))
-                .toList();
+            .filter(cellPosition::canCalculatePositionBy)
+            .map(cellPosition::calculatePositionBy)
+            .filter(position -> position.isRowIndexLessThan(rowSize))
+            .filter(position -> position.isColIndexLessThan(colSize))
+            .toList();
     }
 
     private void updateCellAt(CellPosition position, Cell cell) {
@@ -232,5 +231,4 @@ public class GameBoard {
     private Cell findCell(CellPosition cellPosition) {
         return board[cellPosition.getRowIndex()][cellPosition.getColIndex()];
     }
-
 }
